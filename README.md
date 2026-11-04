@@ -21,10 +21,10 @@ The objective of this assignment is to develop, train, evaluate, and deploy five
 | ML Model Name | Accuracy | AUC | Precision | Recall | F1 | MCC |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | Logistic Regression | 0.8633 | 0.9088 | 0.7773 | 0.6117 | 0.6846 | 0.6060 |
-| Decision Tree | 0.8642 | 0.9013 | 0.7703 | 0.6151 | 0.6871 | 0.6087 |
+| Decision Tree | 0.8642 | 0.9013 | 0.7783 | 0.6151 | 0.6871 | 0.6087 |
 | KNN | 0.8525 | 0.8808 | 0.7244 | 0.6323 | 0.6752 | 0.5826 |
 | Naive Bayes | 0.3467 | 0.5826 | 0.2677 | 0.9759 | 0.4201 | 0.1623 |
-| Support Vector Machine | 0.8683 | 0.9306 | 0.7854 | 0.6289 | 0.6985 | 0.6218 |
+| Support Vector Machine | 0.8683 | 0.9006 | 0.7854 | 0.6289 | 0.6985 | 0.6218 |
 
 ## Observations on Model Performance
 
