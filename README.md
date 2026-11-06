@@ -14,7 +14,7 @@ The objective of this assignment is to develop, train, evaluate, and deploy five
 
 ## c. GitHub Repository Link
 * **Repository**: https://github.com/Swapnilkalamkar/2026AK05310_bits-ml-assignment-2
-* **Live Streamlit App**: https://2026ak05310bits-ml-assignment-2-ycc2j5f3pbzrbfuklbezpw.streamlit.app
+* **Live Streamlit App**: https://2026ak05310bits-ml-assignment-2.streamlit.app
 
 ## d. Models Used & Comparison Table
 
