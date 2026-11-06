@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -13,7 +14,7 @@ from sklearn.metrics import (
 st.set_page_config(page_title="Adult Census Income Classifier", layout="wide")
 
 st.title("Adult Census Income - Model Performance Evaluation")
-st.write("Upload the test CSV data to evaluate pre-trained models without retraining.")
+st.write("Evaluate pre-trained models on the test partition without retraining.")
 
 @st.cache_resource
 def load_preprocessor():
@@ -32,7 +33,7 @@ def load_model(model_name):
 
 # Sidebar Controls
 st.sidebar.header("Controls & Setup")
-uploaded_file = st.sidebar.file_uploader("Upload Test CSV (test_data.csv)", type=["csv"])
+uploaded_file = st.sidebar.file_uploader("Upload Custom CSV (Optional)", type=["csv"])
 
 model_choice = st.sidebar.selectbox(
     "Select Classifier Model",
@@ -41,15 +42,27 @@ model_choice = st.sidebar.selectbox(
 
 target_col = st.sidebar.text_input("Target Column Name", value="income")
 
+# Determine data source: uploaded CSV or fallback to bundled test_data.csv
+df_test = None
+data_source_label = ""
+
 if uploaded_file is not None:
+    df_test = pd.read_csv(uploaded_file)
+    data_source_label = f"Uploaded File: `{uploaded_file.name}`"
+elif os.path.exists("test_data.csv"):
+    df_test = pd.read_csv("test_data.csv")
+    data_source_label = "Bundled Dataset: `test_data.csv` (Default)"
+
+if df_test is not None:
     try:
-        df_test = pd.read_csv(uploaded_file)
-        st.subheader("Uploaded Test Data Preview")
-        st.write(f"Shape: {df_test.shape[0]} rows, {df_test.shape[1]} columns")
+        st.info(f"**Active Data Source:** {data_source_label}")
+        
+        st.subheader("Test Data Preview")
+        st.write(f"Shape: **{df_test.shape[0]} rows**, **{df_test.shape[1]} columns**")
         st.dataframe(df_test.head(5))
 
         if target_col not in df_test.columns:
-            st.error(f"Target column '{target_col}' not found in uploaded CSV.")
+            st.error(f"Target column '{target_col}' not found in the test dataset.")
         else:
             y_test = df_test[target_col].astype(int).values
             X_test_raw = df_test.drop(columns=[target_col])
@@ -67,7 +80,7 @@ if uploaded_file is not None:
             else:
                 y_proba = model.decision_function(X_test_proc)
 
-            # Metrics
+            # Compute Evaluation Metrics
             acc = accuracy_score(y_test, y_pred)
             auc = roc_auc_score(y_test, y_proba)
             prec = precision_score(y_test, y_pred, zero_division=0)
@@ -107,4 +120,4 @@ if uploaded_file is not None:
     except Exception as e:
         st.error(f"Error executing model inference: {str(e)}")
 else:
-    st.info("Please upload test_data.csv via the sidebar to view model evaluation.")
+    st.warning("No dataset found. Please upload a test CSV via the sidebar.")
